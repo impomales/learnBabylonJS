@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // camera set up
   const camera = new BABYLON.FreeCamera(
     "camera",
-    new BABYLON.Vector3(5, 5, -5),
+    new BABYLON.Vector3(0, 5, -15),
     scene
   );
   camera.setTarget(BABYLON.Vector3.Zero());
@@ -21,7 +21,13 @@ window.addEventListener("DOMContentLoaded", () => {
     scene
   );
 
-  const cube = BABYLON.Mesh.CreateBox("myBox", 1, scene);
+  const cubes = [];
+
+  for (let i = -2; i <= 2; i++) {
+    const cube = BABYLON.Mesh.CreateBox("myBox", 1, scene);
+    cube.position = new BABYLON.Vector3(i * 2, 0, 0);
+    cubes.push(cube);
+  }
 
   // render loop.
   engine.runRenderLoop(() => {
