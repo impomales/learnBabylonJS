@@ -1,5 +1,18 @@
 import * as BABYLON from "babylonjs";
 import Player from "./Player";
+import Level from "./Level";
+
+const levels = [
+  [],
+  [
+    ["S", 0, 0, 0, -1, "-"],
+    [1, "-", "-", "-", "-", "-"],
+    [0, "-", 0, 0, -2, "-"],
+    [0, 0, 0, "-", "-", "-"],
+    ["-", "-", 2, 0, 0, "F"]
+  ]
+];
+
 export default class Game {
   // creates engine and inits all members to default values.
   constructor(canvasId) {
@@ -42,9 +55,9 @@ export default class Game {
 
   _initGame() {
     this.player = new Player(this);
-    // this.level = Level.FromInts(levels[this.currentLevel], this);
-    // this.player.position = this.level.start.position.clone();
-    // this.player.position.y = 2;
+    this.level = Level.FromInts(levels[this.currentLevel], this);
+    this.player.position = this.level.start.position.clone();
+    this.player.position.y = 2;
     this.scene.debugLayer.show();
   }
 }
