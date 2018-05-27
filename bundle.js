@@ -71,6 +71,42 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./babylon/Game.js":
+/*!*************************!*\
+  !*** ./babylon/Game.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Game; });\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Player */ \"./babylon/Player.js\");\n\n\nclass Game {\n  // creates engine and inits all members to default values.\n  constructor(canvasId) {\n    const canvas = document.getElementById(canvasId);\n    this.engine = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Engine\"](canvas, true);\n\n    this.scene = this._initScene(this.engine);\n    this.assets = [];\n    this.currentLevel = 1;\n    this.player = null;\n    this.level = null;\n\n    // game initialization.\n    this._initGame();\n\n    // game loop.\n    const _this = this;\n    this.engine.runRenderLoop(() => {\n      _this.scene.render();\n    });\n  }\n  // creates scene, camera, and light.\n  _initScene(engine) {\n    const scene = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Scene\"](engine);\n    const camera = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"FreeCamera\"](\n      \"camera\",\n      new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Vector3\"](2.5, 6, -6.5),\n      scene\n    );\n    camera.rotation = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Vector3\"](Math.PI / 3.5, 0, 0);\n    camera.attachControl(engine.getRenderingCanvas());\n    const light = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"HemisphericLight\"](\n      \"light\",\n      new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Vector3\"](0, 1, 0),\n      scene\n    );\n    light.intensity = 0.7;\n    return scene;\n  }\n\n  _initGame() {\n    this.player = new _Player__WEBPACK_IMPORTED_MODULE_1__[\"default\"](this);\n    // this.level = Level.FromInts(levels[this.currentLevel], this);\n    // this.player.position = this.level.start.position.clone();\n    // this.player.position.y = 2;\n    this.scene.debugLayer.show();\n  }\n}\n\n\n//# sourceURL=webpack:///./babylon/Game.js?");
+
+/***/ }),
+
+/***/ "./babylon/GameObject.js":
+/*!*******************************!*\
+  !*** ./babylon/GameObject.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return GameObject; });\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n\n\nclass GameObject extends babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Mesh\"] {\n  constructor(name, game) {\n    super(name, game.scene);\n    this.game = game;\n    this.scene = game.scene;\n  }\n}\n\n\n//# sourceURL=webpack:///./babylon/GameObject.js?");
+
+/***/ }),
+
+/***/ "./babylon/Player.js":
+/*!***************************!*\
+  !*** ./babylon/Player.js ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Player; });\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _GameObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameObject */ \"./babylon/GameObject.js\");\n\n\n\nclass Player extends _GameObject__WEBPACK_IMPORTED_MODULE_1__[\"default\"] {\n  constructor(game) {\n    super(\"player\", game);\n    // physics body.\n    this.body = null;\n    // can move in two directions.\n    this.directions = [0, 0];\n    // can rotate in two directions.\n    this.rotations = [0, 0];\n\n    const vertexData = babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"VertexData\"].CreateSphere(\n      15,\n      0.75,\n      babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Mesh\"].DEFAULTSIDE\n    );\n    vertexData.applyToMesh(this);\n\n    const _this = this;\n    this.getScene().registerBeforeRender(() => {\n      if (_this.position.y < -10) {\n        _this.game.reset();\n      }\n    });\n  }\n}\n\n\n//# sourceURL=webpack:///./babylon/Player.js?");
+
+/***/ }),
+
 /***/ "./babylon/index.js":
 /*!**************************!*\
   !*** ./babylon/index.js ***!
@@ -79,7 +115,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n\n\nwindow.addEventListener(\"DOMContentLoaded\", () => {\n  // engine set up\n  const canvas = document.getElementById(\"gameCanvas\");\n  const engine = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Engine\"](canvas, true);\n  const scene = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Scene\"](engine);\n\n  // debug inspector\n  scene.debugLayer.show();\n  scene.onPointerDown = (event, pickInfo) => {\n    console.log(pickInfo);\n  };\n\n  // camera set up\n  const camera = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"ArcRotateCamera\"](\n    \"camera\",\n    45,\n    45,\n    10,\n    new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Vector3\"](0, 5, -15),\n    scene\n  );\n  camera.setTarget(babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Vector3\"].Zero());\n  camera.attachControl(canvas);\n\n  // ambient light\n  const light = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"HemisphericLight\"](\n    \"light\",\n    new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Vector3\"](0, 1, -1),\n    scene\n  );\n  light.diffuse = babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Color3\"].Red();\n  light.specular = babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Color3\"].Black();\n  light.groundColor = babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Color3\"].Blue();\n\n  const cubes = [];\n\n  for (let i = -2; i <= 2; i++) {\n    const cube = babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Mesh\"].CreateBox(`myBox${i + 2}`, 1, scene);\n    cube.position = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Vector3\"](i * 2, 0, 0);\n    cubes.push(cube);\n  }\n\n  // render loop.\n  engine.runRenderLoop(() => {\n    scene.render();\n  });\n});\n\n\n//# sourceURL=webpack:///./babylon/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Game */ \"./babylon/Game.js\");\n\n\nwindow.addEventListener(\"DOMContentLoaded\", () => {\n  const game = new _Game__WEBPACK_IMPORTED_MODULE_0__[\"default\"](\"gameCanvas\");\n  console.log(game);\n});\n\n\n//# sourceURL=webpack:///./babylon/index.js?");
 
 /***/ }),
 
