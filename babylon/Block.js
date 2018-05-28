@@ -8,16 +8,16 @@ export default class Block extends GameObject {
       1,
       BABYLON.Mesh.DEFAULTSIDE
     );
-    vertexData.applytToMesh(this);
+    vertexData.applyToMesh(this);
 
     this.position.x = x;
     this.position.z = -z;
   }
-
-  static TYPES = {
-    NOTHING: "-",
-    NORMAL: 0,
-    START: "S",
-    FINISH: "F"
-  };
 }
+
+Block.TYPES = {
+  NOTHING: "-",
+  NORMAL: 0,
+  START: "S",
+  FINISH: "F"
+};

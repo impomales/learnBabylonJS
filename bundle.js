@@ -71,6 +71,30 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./babylon/Apple.js":
+/*!**************************!*\
+  !*** ./babylon/Apple.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Apple; });\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _GameObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameObject */ \"./babylon/GameObject.js\");\n\n\n\nclass Apple extends _GameObject__WEBPACK_IMPORTED_MODULE_1__[\"default\"] {\n  constructor(game) {\n    super(\"apple\", game);\n    const apple = babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Mesh\"].CreateTorusKnot(\n      \"knot\",\n      0.25,\n      0.05,\n      64,\n      64,\n      2,\n      3,\n      this.getScene()\n    );\n    apple.parent = this;\n  }\n}\n\n\n//# sourceURL=webpack:///./babylon/Apple.js?");
+
+/***/ }),
+
+/***/ "./babylon/Block.js":
+/*!**************************!*\
+  !*** ./babylon/Block.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Block; });\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _GameObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameObject */ \"./babylon/GameObject.js\");\n\n\n\nclass Block extends _GameObject__WEBPACK_IMPORTED_MODULE_1__[\"default\"] {\n  constructor(x, z, game) {\n    super(\"block\", game);\n    const vertexData = babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"VertexData\"].CreateBox(\n      1,\n      babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Mesh\"].DEFAULTSIDE\n    );\n    vertexData.applyToMesh(this);\n\n    this.position.x = x;\n    this.position.z = -z;\n  }\n}\n\nBlock.TYPES = {\n  NOTHING: \"-\",\n  NORMAL: 0,\n  START: \"S\",\n  FINISH: \"F\"\n};\n\n\n//# sourceURL=webpack:///./babylon/Block.js?");
+
+/***/ }),
+
 /***/ "./babylon/Game.js":
 /*!*************************!*\
   !*** ./babylon/Game.js ***!
@@ -95,6 +119,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
+/***/ "./babylon/Key.js":
+/*!************************!*\
+  !*** ./babylon/Key.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Key; });\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _GameObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameObject */ \"./babylon/GameObject.js\");\n\n\n\nclass Key extends _GameObject__WEBPACK_IMPORTED_MODULE_1__[\"default\"] {\n  constructor(game, number) {\n    super(\"key\", game);\n    this.number = number;\n    this.spike = null;\n\n    const key = babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Mesh\"].CreateTorus(\n      \"key\",\n      0.75,\n      0.25,\n      10,\n      this.getScene()\n    );\n    key.parent = this;\n  }\n\n  link(spike) {\n    this.spike = spike;\n  }\n\n  static delete() {\n    this.spike.delete();\n    this.dispose();\n  }\n}\n\n\n//# sourceURL=webpack:///./babylon/Key.js?");
+
+/***/ }),
+
 /***/ "./babylon/Level.js":
 /*!**************************!*\
   !*** ./babylon/Level.js ***!
@@ -103,7 +139,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Level; });\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n\n/*\n  S       - starting position\n  F       - final position\n  0       - empty block\n  -       - no block at all\n  Number  - spike\n  -Number - correspoding key\n*/\nclass Level {\n  constructor(game) {\n    this.scene = game.scene;\n    this.game = game;\n\n    // starting position.\n    this.start = null;\n    // keys of current level.\n    this.keys = [];\n    // spikes of current level.\n    this.spikes = [];\n    // level blocks.\n    this.blocks = [];\n  }\n\n  dispose() {\n    this.blocks.forEach(block => block.dispose());\n    this.keys.forEach(key => key.delete());\n  }\n\n  static FromInts(matrix, game) {\n    const level = new Level(game);\n  }\n}\n\n\n//# sourceURL=webpack:///./babylon/Level.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Level; });\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Block */ \"./babylon/Block.js\");\n/* harmony import */ var _Apple__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Apple */ \"./babylon/Apple.js\");\n/* harmony import */ var _Spike__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Spike */ \"./babylon/Spike.js\");\n/* harmony import */ var _Key__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Key */ \"./babylon/Key.js\");\n\n\n\n\n\n/*\n  S       - starting position\n  F       - final position\n  0       - empty block\n  -       - no block at all\n  Number  - spike\n  -Number - correspoding key\n*/\nclass Level {\n  constructor(game) {\n    this.scene = game.scene;\n    this.game = game;\n\n    // starting position.\n    this.start = null;\n    // keys of current level.\n    this.keys = [];\n    // spikes of current level.\n    this.spikes = [];\n    // level blocks.\n    this.blocks = [];\n  }\n\n  dispose() {\n    this.blocks.forEach(block => block.dispose());\n    this.keys.forEach(key => key.delete());\n  }\n\n  static FromInts(matrix, game) {\n    const level = new Level(game);\n\n    for (let z = 0; z < matrix.length; z++) {\n      for (let x = 0; x < matrix[z].length; x++) {\n        const type = matrix[z][x];\n        let block = null;\n\n        if (type !== _Block__WEBPACK_IMPORTED_MODULE_1__[\"default\"].TYPES.NOTHING) {\n          block = new _Block__WEBPACK_IMPORTED_MODULE_1__[\"default\"](x, z, game);\n          level.blocks.push(block);\n          if (type === _Block__WEBPACK_IMPORTED_MODULE_1__[\"default\"].TYPES.START) {\n            level.start = block;\n          } else if (type === _Block__WEBPACK_IMPORTED_MODULE_1__[\"default\"].TYPES.FINISH) {\n            const apple = new _Apple__WEBPACK_IMPORTED_MODULE_2__[\"default\"](game);\n            apple.position = block.position.clone();\n            apple.position.y = 1;\n            level.finish = block;\n          } else if (type !== _Block__WEBPACK_IMPORTED_MODULE_1__[\"default\"].TYPES.NORMAL) {\n            // either a spike or a key\n            if (type > 0) {\n              // spike\n              const spike = new _Spike__WEBPACK_IMPORTED_MODULE_3__[\"default\"](game, Math.abs(type));\n              spike.position = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Vector3\"](x, 0.5, -z);\n              level.spikes.push(spike);\n            } else {\n              // key\n              const key = new _Key__WEBPACK_IMPORTED_MODULE_4__[\"default\"](game, Math.abs(type));\n              key.position = new babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Vector3\"](x, 0.75, -z);\n              level.keys.push(key);\n            }\n          }\n        }\n      }\n    }\n\n    for (let k = 0; k < level.keys.length; k++) {\n      const currentKey = level.keys[k];\n      for (let s = 0; s < level.spikes.legnth; s++) {\n        const currentSpike = level.spikes[s];\n\n        if (currentSpike.number === currentKey.number)\n          currentKey.link(currentSpike);\n      }\n    }\n\n    return level;\n  }\n}\n\n\n//# sourceURL=webpack:///./babylon/Level.js?");
 
 /***/ }),
 
@@ -116,6 +152,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Player; });\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _GameObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameObject */ \"./babylon/GameObject.js\");\n\n\n\nclass Player extends _GameObject__WEBPACK_IMPORTED_MODULE_1__[\"default\"] {\n  constructor(game) {\n    super(\"player\", game);\n    // physics body.\n    this.body = null;\n    // can move in two directions.\n    this.directions = [0, 0];\n    // can rotate in two directions.\n    this.rotations = [0, 0];\n\n    const vertexData = babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"VertexData\"].CreateSphere(\n      15,\n      0.75,\n      babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Mesh\"].DEFAULTSIDE\n    );\n    vertexData.applyToMesh(this);\n\n    const _this = this;\n    this.getScene().registerBeforeRender(() => {\n      if (_this.position.y < -10) {\n        _this.game.reset();\n      }\n    });\n  }\n}\n\n\n//# sourceURL=webpack:///./babylon/Player.js?");
+
+/***/ }),
+
+/***/ "./babylon/Spike.js":
+/*!**************************!*\
+  !*** ./babylon/Spike.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Spikes; });\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babylonjs */ \"./node_modules/babylonjs/babylon.js\");\n/* harmony import */ var babylonjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babylonjs__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _GameObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameObject */ \"./babylon/GameObject.js\");\n\n\n\nclass Spikes extends _GameObject__WEBPACK_IMPORTED_MODULE_1__[\"default\"] {\n  constructor(game, number) {\n    super(\"spike\", game);\n\n    this.number = number;\n    this.sharpPart = babylonjs__WEBPACK_IMPORTED_MODULE_0__[\"Mesh\"].CreateCylinder(\n      \"cylinder\",\n      0.5,\n      0.5,\n      0.5,\n      6,\n      1,\n      this.getScene()\n    );\n    this.sharpPart.parent = this;\n  }\n\n  updateMaterial(material) {\n    this.sharpPart.material = material;\n  }\n\n  delete() {\n    this.dispose();\n  }\n}\n\n\n//# sourceURL=webpack:///./babylon/Spike.js?");
 
 /***/ }),
 
