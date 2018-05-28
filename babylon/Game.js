@@ -3,7 +3,6 @@ import Player from "./Player";
 import Level from "./Level";
 
 const levels = [
-  [],
   [
     ["S", 0, 0, 0, -1, "-"],
     [1, "-", "-", "-", "-", "-"],
@@ -20,8 +19,9 @@ export default class Game {
     this.engine = new BABYLON.Engine(canvas, true);
 
     this.scene = this._initScene(this.engine);
+    // this.scene.debugLayer.show();
     this.assets = [];
-    this.currentLevel = 1;
+    this.currentLevel = 0;
     this.player = null;
     this.level = null;
 
@@ -58,6 +58,5 @@ export default class Game {
     this.level = Level.FromInts(levels[this.currentLevel], this);
     this.player.position = this.level.start.position.clone();
     this.player.position.y = 2;
-    this.scene.debugLayer.show();
   }
 }
