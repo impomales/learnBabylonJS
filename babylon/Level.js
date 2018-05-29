@@ -31,8 +31,33 @@ export default class Level {
     this.keys.forEach(key => key.delete());
   }
 
+  static _linkKeysToSpikes(level) {
+    for (let k = 0; k < level.keys.length; k++) {
+      const currentKey = level.keys[k];
+      for (let s = 0; s < level.spikes.legnth; s++) {
+        const currentSpike = level.spikes[s];
+
+        if (currentSpike.number === currentKey.number)
+          currentKey.link(currentSpike);
+      }
+    }
+  }
+
   static FromInts(matrix, game) {
     const level = new Level(game);
+    const groundMat = new BABYLON.StandardMaterial("ground", game.scene);
+    groundMat.diffuseTexture = new BABYLON.Texture(
+      "https://images.unsplash.com/photo-1514544634146-c22702f74103?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0f174a659a60eb8f1a9b926bf2ddfa3d&auto=format&fit=crop&w=2700&q=80",
+      game.scene
+    );
+    groundMat.bumpTexture = new BABYLON.Texture(
+      "https://images.unsplash.com/photo-1514544634146-c22702f74103?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0f174a659a60eb8f1a9b926bf2ddfa3d&auto=format&fit=crop&w=2700&q=80",
+      game.scene
+    );
+    groundMat.emissiveTexture = new BABYLON.Texture(
+      "https://images.unsplash.com/photo-1514544634146-c22702f74103?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0f174a659a60eb8f1a9b926bf2ddfa3d&auto=format&fit=crop&w=2700&q=80",
+      game.scene
+    );
 
     for (let z = 0; z < matrix.length; z++) {
       for (let x = 0; x < matrix[z].length; x++) {
@@ -41,6 +66,7 @@ export default class Level {
 
         if (type !== Block.TYPES.NOTHING) {
           block = new Block(x, z, game);
+          block.material = groundMat;
           level.blocks.push(block);
           if (type === Block.TYPES.START) {
             level.start = block;
@@ -67,15 +93,7 @@ export default class Level {
       }
     }
 
-    for (let k = 0; k < level.keys.length; k++) {
-      const currentKey = level.keys[k];
-      for (let s = 0; s < level.spikes.legnth; s++) {
-        const currentSpike = level.spikes[s];
-
-        if (currentSpike.number === currentKey.number)
-          currentKey.link(currentSpike);
-      }
-    }
+    Level._linkKeysToSpikes(level);
 
     return level;
   }
