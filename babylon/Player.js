@@ -18,11 +18,6 @@ export default class Player extends GameObject {
     );
     vertexData.applyToMesh(this);
 
-    const material = new BABYLON.StandardMaterial(
-      "myFirstMaterial",
-      this.getScene()
-    );
-
     const _this = this;
     this.getScene().registerBeforeRender(() => {
       if (_this.position.y < -10) {

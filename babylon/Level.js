@@ -46,16 +46,9 @@ export default class Level {
   static FromInts(matrix, game) {
     const level = new Level(game);
     const groundMat = new BABYLON.StandardMaterial("ground", game.scene);
+
     groundMat.diffuseTexture = new BABYLON.Texture(
-      "https://images.unsplash.com/photo-1514544634146-c22702f74103?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0f174a659a60eb8f1a9b926bf2ddfa3d&auto=format&fit=crop&w=2700&q=80",
-      game.scene
-    );
-    groundMat.bumpTexture = new BABYLON.Texture(
-      "https://images.unsplash.com/photo-1514544634146-c22702f74103?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0f174a659a60eb8f1a9b926bf2ddfa3d&auto=format&fit=crop&w=2700&q=80",
-      game.scene
-    );
-    groundMat.emissiveTexture = new BABYLON.Texture(
-      "https://images.unsplash.com/photo-1514544634146-c22702f74103?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0f174a659a60eb8f1a9b926bf2ddfa3d&auto=format&fit=crop&w=2700&q=80",
+      "/WoodPlanks.jpg",
       game.scene
     );
 
