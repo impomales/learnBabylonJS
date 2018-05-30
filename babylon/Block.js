@@ -12,6 +12,7 @@ export default class Block extends GameObject {
 
     this.position.x = x;
     this.position.z = -z;
+    this.receiveShadows = true;
   }
 }
 

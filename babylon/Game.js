@@ -50,6 +50,28 @@ export default class Game {
       scene
     );
     light.intensity = 0.7;
+
+    // directional light and shadows
+    const dl = new BABYLON.DirectionalLight(
+      "dir",
+      new BABYLON.Vector3(1, -1, -0.5),
+      scene
+    );
+    dl.position = new BABYLON.Vector3(0, 40, 0);
+    this.shadows = new BABYLON.ShadowGenerator(1024, dl);
+    this.shadows.useBlurExponentialShadowMap = true;
+    this.shadows.setTransparencyShadow(true);
+
+    // skybox
+    const skybox = BABYLON.Mesh.CreateBox("skybox", 100.0, scene);
+    const skyboxMaterial = new BABYLON.StandardMaterial("skybox", scene);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture(
+      "/skybox/water",
+      scene
+    );
+
+    skybox.material = skyboxMaterial;
     return scene;
   }
 

@@ -16,6 +16,7 @@ export default class Spikes extends GameObject {
       this.getScene()
     );
     this.sharpPart.parent = this;
+    game.shadows.getShadowMap().renderList.push(this.sharpPart);
   }
 
   updateMaterial(material) {

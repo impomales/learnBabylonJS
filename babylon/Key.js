@@ -15,6 +15,7 @@ export default class Key extends GameObject {
       this.getScene()
     );
     key.parent = this;
+    game.shadows.getShadowMap().renderList.push(key);
   }
 
   link(spike) {

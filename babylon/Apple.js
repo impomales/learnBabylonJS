@@ -15,5 +15,6 @@ export default class Apple extends GameObject {
       this.getScene()
     );
     apple.parent = this;
+    game.shadows.getShadowMap().renderList.push(apple);
   }
 }
