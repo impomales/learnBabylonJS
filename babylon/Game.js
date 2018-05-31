@@ -83,7 +83,7 @@ export default class Game {
     this.player = new Player(this);
     this.level = Level.FromInts(levels[this.currentLevel], this);
     this.player.position = this.level.start.position.clone();
-    this.player.position.y = 2;
+    this.player.position.y = 1;
   }
 
   _loadAssets() {
