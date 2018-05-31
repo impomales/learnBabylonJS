@@ -66,14 +66,14 @@ export default class Level {
           } else if (type === Block.TYPES.FINISH) {
             const apple = new Apple(game);
             apple.position = block.position.clone();
-            apple.position.y = 1;
+            apple.position.y = 0.5;
             level.finish = block;
           } else if (type !== Block.TYPES.NORMAL) {
             // either a spike or a key
             if (type > 0) {
               // spike
               const spike = new Spike(game, Math.abs(type));
-              spike.position = new BABYLON.Vector3(x, 0.5, -z);
+              spike.position = new BABYLON.Vector3(x, 0.51, -z);
               level.spikes.push(spike);
             } else {
               // key

@@ -20,19 +20,23 @@ export default class Game {
 
     this.scene = this._initScene(this.engine);
     // this.scene.debugLayer.show();
-    this.assets = [];
+    this.assets = {};
     this.currentLevel = 0;
     this.player = null;
     this.level = null;
 
+    // load assets
+    const loader = this._loadAssets();
+    const _this = this;
     // game initialization.
-    this._initGame();
 
     // game loop.
-    const _this = this;
-    this.engine.runRenderLoop(() => {
-      _this.scene.render();
-    });
+    loader.onFinish = () => {
+      _this._initGame();
+      _this.engine.runRenderLoop(() => {
+        _this.scene.render();
+      });
+    };
   }
   // creates scene, camera, and light.
   _initScene(engine) {
@@ -80,5 +84,46 @@ export default class Game {
     this.level = Level.FromInts(levels[this.currentLevel], this);
     this.player.position = this.level.start.position.clone();
     this.player.position.y = 2;
+  }
+
+  _loadAssets() {
+    const loader = new BABYLON.AssetsManager(this.scene);
+    loader.loadingUIBackgroundColor = "#2c2b29";
+    const animsKey = {};
+    animsKey.idle = { from: 0, to: 80, speed: 1, loop: true };
+
+    const toLoad = [
+      {
+        name: "spikes",
+        folder: "/",
+        filename: "spikes.babylon"
+      },
+      {
+        name: "key",
+        folder: "/",
+        filename: "key-pickup.babylon",
+        anims: animsKey
+      },
+      {
+        name: "apple",
+        folder: "/",
+        filename: "fruit.babylon",
+        anims: animsKey
+      }
+    ];
+    const _this = this;
+    toLoad.forEach(tl => {
+      const task = loader.addMeshTask(tl.name, "", tl.folder, tl.filename);
+      task.onSuccess = t => {
+        t.loadedMeshes.forEach(mesh => {
+          mesh.isVisible = false;
+        });
+        _this.assets[t.name] = { meshes: t.loadedMeshes, anims: tl.anims };
+      };
+    });
+
+    loader.load();
+
+    return loader;
   }
 }

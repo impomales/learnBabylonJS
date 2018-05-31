@@ -3,19 +3,24 @@ import GameObject from "./GameObject";
 
 export default class Spikes extends GameObject {
   constructor(game, number) {
-    super("spike", game);
+    super("spikes", game);
 
     this.number = number;
-    this.sharpPart = BABYLON.Mesh.CreateCylinder(
-      "cylinder",
-      0.5,
-      0.5,
-      0.5,
-      6,
-      1,
-      this.getScene()
-    );
-    this.sharpPart.parent = this;
+    // this.sharpPart = BABYLON.Mesh.CreateCylinder(
+    //   "cylinder",
+    //   0.5,
+    //   0.5,
+    //   0.5,
+    //   6,
+    //   1,
+    //   this.getScene()
+    // );
+
+    game.assets.spikes.meshes.forEach(mesh => {
+      const clone = mesh.clone();
+      clone.isVisible = true;
+      clone.parent = this;
+    });
     game.shadows.getShadowMap().renderList.push(this.sharpPart);
   }
 
