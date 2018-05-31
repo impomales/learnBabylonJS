@@ -66,16 +66,16 @@ export default class Game {
     this.shadows.useBlurExponentialShadowMap = true;
     this.shadows.setTransparencyShadow(true);
 
-    // skybox
-    const skybox = BABYLON.Mesh.CreateBox("skybox", 100.0, scene);
-    const skyboxMaterial = new BABYLON.StandardMaterial("skybox", scene);
-    skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture(
-      "/skybox/water",
-      scene
-    );
+    // skybox -- looks ugly so it's commented out
+    // const skybox = BABYLON.Mesh.CreateBox("skybox", 100.0, scene);
+    // const skyboxMaterial = new BABYLON.StandardMaterial("skybox", scene);
+    // skyboxMaterial.backFaceCulling = false;
+    // skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture(
+    //   "/skybox/water",
+    //   scene
+    // );
 
-    skybox.material = skyboxMaterial;
+    // skybox.material = skyboxMaterial;
     return scene;
   }
 
