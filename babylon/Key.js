@@ -56,7 +56,7 @@ export default class Key extends GameObject {
     this.spike = spike;
   }
 
-  static delete() {
+  delete() {
     this.spike.delete();
     this.dispose();
   }

@@ -24,17 +24,43 @@ export default class Level {
     this.spikes = [];
     // level blocks.
     this.blocks = [];
+
+    this.apple = null;
   }
 
   dispose() {
     this.blocks.forEach(block => block.dispose());
-    this.keys.forEach(key => key.delete());
+    this.keys.forEach(key => key.dispose());
+    this.apple.dispose();
+  }
+
+  canKill(player) {
+    let res = false;
+    this.spikes.forEach(spike => {
+      if (spike.intersectsMesh(player)) res = true;
+    });
+    return res;
+  }
+
+  hasKey(player) {
+    this.keys.forEach(key => {
+      if (key.intersectsMesh(player)) {
+        this.spikes = this.spikes.filter(
+          spike => spike.number !== key.spike.number
+        );
+        key.delete();
+      }
+    });
+  }
+
+  hasApple(player) {
+    return this.apple.intersectsMesh(player);
   }
 
   static _linkKeysToSpikes(level) {
     for (let k = 0; k < level.keys.length; k++) {
       const currentKey = level.keys[k];
-      for (let s = 0; s < level.spikes.legnth; s++) {
+      for (let s = 0; s < level.spikes.length; s++) {
         const currentSpike = level.spikes[s];
 
         if (currentSpike.number === currentKey.number)
@@ -65,8 +91,9 @@ export default class Level {
             level.start = block;
           } else if (type === Block.TYPES.FINISH) {
             const apple = new Apple(game);
+            level.apple = apple;
             apple.position = block.position.clone();
-            apple.position.y = 0.5;
+            apple.position.y = 0.25;
             level.finish = block;
           } else if (type !== Block.TYPES.NORMAL) {
             // either a spike or a key

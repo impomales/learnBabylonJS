@@ -4,7 +4,7 @@ import Level from "./Level";
 
 const levels = [
   [
-    ["S", 0, 0, 0, -1, "-"],
+    [0, 0, "S", 0, -1, "-"],
     [1, "-", "-", "-", "-", "-"],
     [0, "-", 0, 0, -2, "-"],
     [0, 0, 0, "-", "-", "-"],
@@ -37,13 +37,21 @@ export default class Game {
         _this.scene.render();
       });
     };
+
+    // collison testing.
+    this.scene.registerBeforeRender(() => {
+      this.checkCollisions();
+    });
   }
   // creates scene, camera, and light.
   _initScene(engine) {
     const scene = new BABYLON.Scene(engine);
-    const camera = new BABYLON.FreeCamera(
+    const camera = new BABYLON.ArcRotateCamera(
       "camera",
-      new BABYLON.Vector3(2.5, 6, -6.5),
+      1,
+      1,
+      10,
+      new BABYLON.Vector3(2.5, 0, -3),
       scene
     );
     camera.rotation = new BABYLON.Vector3(Math.PI / 3.5, 0, 0);
@@ -76,14 +84,48 @@ export default class Game {
     // );
 
     // skybox.material = skyboxMaterial;
+
+    // physics
+    scene
+      .enablePhysics
+      // new BABYLON.Vector3(0, -9.8, 0),
+      // new BABYLON.OimoJSPlugin()
+      ();
     return scene;
+  }
+
+  reset() {
+    this.player.physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
+    this.player.physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
+    this.player.rotationQuaternion.copyFromFloats(0, 0, 0, 1);
+    this.player.position = this.level.start.position.clone();
+    this.player.position.y = 2;
+  }
+
+  gameWon() {
+    // show text or whatever.
+    document.getElementById("win").style.opacity = 1;
+  }
+
+  checkCollisions() {
+    // if player spiked.
+    if (this.level.canKill(this.player)) {
+      this.reset();
+    }
+    // if level finished.
+    if (this.level.hasApple(this.player)) {
+      this.gameWon();
+    }
+    // if collide with key, remove spike.
+    this.level.hasKey(this.player);
   }
 
   _initGame() {
     this.player = new Player(this);
     this.level = Level.FromInts(levels[this.currentLevel], this);
     this.player.position = this.level.start.position.clone();
-    this.player.position.y = 1;
+    this.player.rotation = new BABYLON.Vector3(0, Math.PI / 2, 0);
+    this.player.position.y = 2;
   }
 
   _loadAssets() {

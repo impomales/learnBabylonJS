@@ -48,6 +48,17 @@ export default class Player extends GameObject {
 
     game.shadows.getShadowMap().renderList.push(this);
 
+    this.physicsImpostor = new BABYLON.PhysicsImpostor(
+      this,
+      BABYLON.PhysicsImpostor.SphereImpostor,
+      {
+        mass: 1,
+        friction: 0.9
+      },
+      game.scene
+    );
+
+
     const _this = this;
     this.getScene().registerBeforeRender(() => {
       if (this.position.y < -10) {
@@ -107,5 +118,4 @@ export default class Player extends GameObject {
     vector2.normalize().scaleInPlace(0.05);
     this.position.addInPlace(vector2);
   }
-
 }

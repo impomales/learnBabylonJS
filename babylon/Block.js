@@ -13,6 +13,17 @@ export default class Block extends GameObject {
     this.position.x = x;
     this.position.z = -z;
     this.receiveShadows = true;
+
+    this.physicsImpostor = new BABYLON.PhysicsImpostor(
+      this,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      {
+        mass: 0,
+        resitution: 0.5,
+        friction: 0.5
+      },
+      game.scene
+    );
   }
 }
 

@@ -23,15 +23,15 @@ export default class Apple extends GameObject {
     const keys = [
       {
         frame: 0,
-        value: 1
+        value: 0.25,
       },
       {
         frame: 30,
-        value: 1.25
+        value: 0.5
       },
       {
         frame: 60,
-        value: 1
+        value: 0.25
       }
     ];
 
